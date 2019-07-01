@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang= "ko">
+<head>
+  <meta charset="utf-8">
+    <title> 회원가입 </title>
+
+  <script language ="javascript">
+
+          var count = {};
+
+          function psh_msg(loc){
+            var httpRequest = new XMLHttpRequest();
+            httpRequest.onreadystatechange = function(){
+
+              if(httpRequest.readyState == XMLHttpRequest.DONE && httpRequest.status == 200){
+                var xmlObj = httpRequest.responseXML;
+                var text_psh = xmlObj.getElementsByTagName("content")[0].firstChild.nodeValue;
+                // xmlObj에서 했던것 처럼 특정 객체에 하지않고 전체 바탕에 노드 생성하면 될듯
+                var newNode = document.createElement("div1");
+                newNode.style.display = "block";
+                newNode.style.color = "red";
+                newNode.innerHTML = text_psh;
+                if(loc.nodeName != "DIV1"){
+                document.form1.insertBefore(newNode,loc);
+                }
+              }
+            }
+            httpRequest.open("GET", "sample.xml", true);
+            httpRequest.send();
+          }
+
+          function whehter_empt(){
+            var target = document.activeElement;
+            var loc1 = target.nextElementSibling;
+            var loc2 = target.parentNode.nextElementSibling
+            var norm = document.getElementsByName("birth")[0].name;
+
+            var keyname ="";
+            var countVar = target.name;
+
+            target.onblur = function(){
+              if(target.value == ""){
+                if(target.name != norm){
+                  psh_msg(loc1);
+                  count[keyname + countVar] = 0;
+                }else{
+                  psh_msg(loc2);
+                  count[keyname + countVar] = 0;
+                }
+              }else{
+                count[keyname + countVar] = 1;
+              } if(target.name != norm){
+                if(loc1.nodeName == "DIV1"){
+                    document.getElementsByName("form1")[0].removeChild(loc1);
+                  }
+                }else{
+                  if(loc2.nodeName == "DIV1"){
+                    document.getElementsByName("form1")[0].removeChild(loc2);
+                  }
+                }
+              }
+            }
+
+          function validate(){
+            var sum = 0;
+            for(var i of Object.keys(count)){
+              sum +=count[i];
+            }
+          if((document.form1.pw.value != "") && (document.form1.pw_cnf.value != "") &&
+           (document.form1.pw.value != document.form1.pw_cnf.value)){
+          alert("비밀번호가 일치하지 않습니다.");
+          document.form1.pw.value = "";
+          document.form1.pw_cnf.value = "";
+          document.form1.pw.focus();
+          return;
+        }
+        else if(sum ==6){
+          alert("가입완료!");
+        }else{
+          alert("필수 항목이 누락되었습니다.")
+        }
+        }
+  </script>
+</head>
+
+<body>
+  <h1> 회원가입 </h1>
+  <form name = "form1">
+    <h2> 아이디 </h2>
+      <input type = "text" name = "id" onfocus="whehter_empt()">
+    <h2> 비밀번호 </h2>
+      <input type = "password" name = "pw" onfocus="whehter_empt()">
+    <h2> 비밀번호 재확인 </h2>
+      <input type = "password" name = "pw_cnf" onfocus="whehter_empt()">
+    <h2> 이름 </h2>
+      <input type = "text" name = "name" onfocus="whehter_empt()">
+      <h2> 생년월일 </h2>
+    <div name ="birth_part">
+        <input type = "number" name = "birth"  placeholder="년(4자)" onfocus="whehter_empt()">
+        <select type = "number" name= "birth" >
+          <script>
+            for(var i=1; i<=12; i++)
+            document.write("<option>" + i + "</option>");
+          </script>
+        </select>
+        <input type = "number" name = "birth" placeholder="일" onfocus="whehter_empt()">
+    </div>
+    <h2> 성별 </h2>
+      <select type = "text" name = "sex">
+        <option> 남 </option>
+        <option> 여 </option>
+      </select>
+
+    <h2> 본인확인 이메일 </h2>
+      <input type = "text" name = "email" onfocus="whehter_empt()">
+
+    <p>
+  <input type = "button" value = "가입하기" onClick ="validate()">
+  </form>
+
+</body>
+</html>

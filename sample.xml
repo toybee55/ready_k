@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<message>
+  <necessary>
+    <content>필수 정보입니다.</content>
+  </necessary>
+  <necessary>
+    <content>태어난 년도 4자리를 정확하게 입력하세요.</content>
+  </necessary>
+</message>
